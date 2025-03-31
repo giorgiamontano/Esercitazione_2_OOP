@@ -33,19 +33,6 @@ class Complex_number{
 		return Complex_number<T>(real_part, -imag_part);
 	}
 	
-	// overload dell'operatore <<
-	std::ostream&
-    operator<<(std::ostream& os, const Complex_number<T>& c) {
-    if (c.imag() == 0) 
-        os << c.real(); // se la parte immaginaria è uguale a 0 il numero compesso è uguale alla parte reale
-    else{
-		if (c.imag() > 0)
-			os << c.real() << "+" << c.imag() << "i"; 
-		else 
-            os << c.real() << c.imag() << "i"; // se la parte immaginariaè negativa non devo aggiungere - perche questo fa già parte di c.imag()
-    }
-	return os;
-	}
 	
 	// overload di +=
 	Complex_number& operator+=(const Complex_number& other) {
@@ -85,26 +72,40 @@ class Complex_number{
 		return prod;  
 	}	
 		
-}
+};
+// overload di <<
+template <typename T> requires std::floating_point<T>
+std::ostream&
+operator<<(std::ostream& os, const Complex_number<T>& c) {
+    if (c.imag() == 0) 
+        os << c.real(); // se la parte immaginaria è uguale a 0 il numero compesso è uguale alla parte reale
+    else{
+		if (c.imag() > 0)
+			os << c.real() << "+" << c.imag() << "i"; 
+		else 
+            os << c.real() << c.imag() << "i"; // se la parte immaginariaè negativa non devo aggiungere - perche questo fa già parte di c.imag()
+    }
+	return os;
+	}
 
 int main() {
-    ComplexNumber c1(1, 2);
-    ComplexNumber c2(1, -2);
-	ComplexNumber c3(2, 3);
+    Complex_number<double> c1(1, 2);
+    Complex_number<double> c2(1, -2);
+	Complex_number<double> c3(2, 3);
 
     std::cout << "c1 = " << c1 << std::endl;
     std::cout << "c2 = " << c2 << std::endl;
 	std::cout << "c3 = " << c3 << std::endl;
 
-    ComplexNumber sum = c1 + c3;
+    Complex_number<double> sum = c1 + c3;
     std::cout << "c1 + c3 = " << sum << std::endl;
 
-    ComplexNumber prod = c1 * c3;
+    Complex_number<double> prod = c1 * c3;
     std::cout << "c1 * c3 = " << prod << std::endl;
 
-    std::cout << "Il coniugato di c1 è " << c1.conjugate() << std::endl;
-	std::cout << "La parte reale di c1 è " <<  c1.real_part() << std::endl;
-	std::cout << "La parte immaginaria di c1 è " << c1.imag_part() << std::endl;
+    std::cout << "Il coniugato di c1 è " << c1.conjugated() << std::endl;
+	std::cout << "La parte reale di c1 è " <<  c1.real() << std::endl;
+	std::cout << "La parte immaginaria di c1 è " << c1.imag() << std::endl;
 
     return 0;
 }
